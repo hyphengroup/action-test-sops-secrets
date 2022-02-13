@@ -1,6 +1,12 @@
 # `test-sops-secrets` GitHub Action
 
 <!-- action-docs-description -->
+## Description
+
+Decrypt, convert and validate secrets
+
+
+<!-- action-docs-description -->
 
 ## Usage
 
@@ -44,7 +50,24 @@ jobs:
 ```
 
 <!-- action-docs-inputs -->
+## Inputs
+
+| parameter | description | required | default |
+| - | - | - | - |
+| files | SopsSecrets to test | `true` |  |
+
+
+
+<!-- action-docs-inputs -->
 
 <!-- action-docs-outputs -->
+
+<!-- action-docs-outputs -->
+
+<!-- action-docs-runs -->
+## Runs
+
+This action is an `composite` action.
+
 
 <!-- action-docs-runs -->
