@@ -1,0 +1,22 @@
+name: 'Test SopsSecrets'
+description: 'Decrypt, convert and validate secrets'
+inputs:
+  files:
+    description: 'SopsSecrets to test'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      env:
+        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
+        # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
+        INPUT_MODIFIED_FILES: ${{ inputs.files }}
+      run: |
+        echo "::group::test-secrets"
+        for f in ${INPUT_MODIFIED_FILES}; do
+          echo "testing SopsSecret ${f} ..."
+          sops -d --output-type=json $f | \
+            jq '.spec.secretTemplates[] | {"kind":"Secret","apiVersion":"v1","type":"opaque","metadata":{"name":.name},"stringData":.data}' | \
+            kubectl apply --dry-run=server -f -
+        done
